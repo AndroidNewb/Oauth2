@@ -5,8 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Transfer money</title>
+<link rel="stylesheet" href="/resources/style.css" >
 </head>
 <body>
+
+<ul>
+  <li><a href="http://localhost:9000/home">Home</a></li>
+  <li><a href="http://localhost:9000/addmoney">Add Money</a></li>
+  <li><a class="active" href="http://localhost:9000/transfermoney">Transfer Money</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
 	<%
 		HttpSession httpSession = request.getSession();
 	%>

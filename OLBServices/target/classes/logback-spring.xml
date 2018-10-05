@@ -17,8 +17,9 @@
         <appender-ref ref="STDOUT" />
     </root>
 
+<!-- C:\Users\Dennis Abraham\Desktop\TEMP\ -->
 	<appender name="SAVE-TO-FILE" class="ch.qos.logback.core.FileAppender">
-		<file>C:\Users\Dennis Abraham\Desktop\TEMP\OLBservices.log</file>
+		<file>C:\Users\bashnewb\Desktop\App\OLB\OLBservices.log</file>
 		<encoder>
 			<pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M : %msg%n</pattern>
 		</encoder>

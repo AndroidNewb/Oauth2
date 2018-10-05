@@ -173,7 +173,18 @@ public class OLB_Controller {
 
 		return view;
 	}
-
+	
+	@GetMapping(value="/home")
+	public ModelAndView redirectToHome(HttpSession session)
+	{
+	
+		String userName=session.getAttribute("olbuser").toString();
+		
+		ModelAndView model= getUserByUserId(userName,  session);
+		return model;
+	}
+	
+/*
 	@RequestMapping(value="/showAllUsers", method=RequestMethod.GET)
 	public String getAllUsers(Model model)
 	{
@@ -182,7 +193,7 @@ public class OLB_Controller {
 		model.addAttribute("olbusers", olbUsers);
 
 		return "showAllUsers";
-	}
+	}*/
 
 
 

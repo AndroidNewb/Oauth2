@@ -5,6 +5,7 @@
 	<artifactId>OLBServices</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>OLBServices</name>
+	<packaging>war</packaging>
 	<description>Services for OLB</description>
 	<parent>
 		<groupId>org.springframework.boot</groupId>

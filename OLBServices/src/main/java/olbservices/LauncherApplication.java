@@ -2,30 +2,25 @@ package olbservices;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import olbservices.model.Branch;
-import olbservices.model.SavingsAccount;
-import olbservices.model.User;
-import olbservices.repository.BranchRepository;
-import olbservices.repository.SavingsAccountRepository;
-import olbservices.repository.UserRepository;
+
 
 
 @SpringBootApplication
 public class LauncherApplication implements CommandLineRunner{
 
-	@Autowired
+	/*@Autowired
 	private BranchRepository branchRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
 	@Autowired
-	private SavingsAccountRepository accountRepository;
+	private SavingsAccountRepository accountRepository;*/
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("OLBservices");
 	

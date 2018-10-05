@@ -7,9 +7,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Home</title>
+<link rel="stylesheet" href="/resources/style.css" >
 </head>
 <body>
 
+<ul>
+  <li><a class="active" href="http://localhost:9000/home">Home</a></li>
+  <li><a href="http://localhost:9000/addmoney">Add Money</a></li>
+  <li><a href="http://localhost:9000/transfermoney">Transfer Money</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
+<br>
+<br>
 	<c:if test="${not empty user}">
 
 		<table border="1" cellpadding="5">
