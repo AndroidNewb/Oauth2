@@ -5,9 +5,16 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>New Branch</title>
+<link rel="stylesheet" href="/resources/style.css" >
 </head>
 <body>
-<form method="post" action="http://localhost:5556/persistnewbranch">
+<ul>
+  <li><a  href="http://localhost:9000/ui/searchuser">Search User</a></li>
+  <li><a  href="http://localhost:9000/ui/createuser">Create User</a></li>
+  <li><a class="active" href="http://localhost:9000/ui/transfermoney">Create Branch</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
+<form method="post" action="http://localhost:9000/api/saveNewBranch">
 		<table border="0">
 			<tr>
 				<td>Branch location</td>

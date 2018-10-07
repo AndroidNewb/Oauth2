@@ -2,15 +2,18 @@ package olbservices.model;
 
 
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 
 @Entity
-public class Transaction {
+public class Transaction implements Comparable<Transaction>{
 
 	@Id
 	private String transactionID;
+	private LocalDateTime transactionTime;
 	private String fromAccount;
 	private String toAccount;
 	private int amount;
@@ -19,12 +22,21 @@ public class Transaction {
 	public Transaction()
 	{}
 	
-	public Transaction(String transactionID, String fromAccount, String toAccount, int amount) 
+	public Transaction(String transactionID, LocalDateTime transactionTime,String fromAccount, String toAccount, int amount) 
 	{
 		this.transactionID = transactionID;
 		this.fromAccount = fromAccount;
 		this.toAccount = toAccount;
 		this.amount = amount;
+		this.transactionTime=transactionTime;
+	}
+
+	public LocalDateTime getTransactionTime() {
+		return transactionTime;
+	}
+
+	public void setTransactionTime(LocalDateTime transactionTime) {
+		this.transactionTime = transactionTime;
 	}
 
 	@Override
@@ -63,6 +75,12 @@ public class Transaction {
 
 	public void setAmount(int amount) {
 		this.amount = amount;
+	}
+
+	@Override
+	public int compareTo(Transaction transaction) {
+		
+		 return getTransactionTime().compareTo(transaction.getTransactionTime());
 	}
 
 

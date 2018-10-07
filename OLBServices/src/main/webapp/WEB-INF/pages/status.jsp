@@ -5,9 +5,13 @@ pageEncoding="ISO-8859-1"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Refresh" content="5;url=http://localhost:9000/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">
 <title>Status</title>
 </head>
 <body>
+
+<h3>You will automatically be redirected, do not refresh</h3>
+<img src="/resources/loading.gif" bor>
 	<c:if test="${not empty userErrorStatus}">
 		<h2>
 			<c:out value="${userErrorStatus}" />

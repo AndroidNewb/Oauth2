@@ -9,16 +9,36 @@
 </head>
 <body>
 
+<%
+String runningENV=System.getenv("ENV");
+
+if (runningENV.equalsIgnoreCase("dev"))
+{	
+%>
 <ul>
-  <li><a href="http://localhost:9000/home">Home</a></li>
-  <li><a href="http://localhost:9000/addmoney">Add Money</a></li>
-  <li><a class="active" href="http://localhost:9000/transfermoney">Transfer Money</a></li>
+  <li><a  href="http://localhost:9000/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">Home</a></li>
+  <li><a  href="http://localhost:9000/ui/creditmoney">Credit Money</a></li>
+  <li><a class="active"  href="http://localhost:9000/ui/transfermoney">Transfer Money</a></li>
   <li><a href="#about">Logout</a></li>
 </ul>
+<%
+}
+else if(runningENV.equalsIgnoreCase("prod"))
+{
+%>
+<ul>
+  <li><a  href="http://localhost:7777/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">Home</a></li>
+  <li><a href="http://localhost:7777/ui/creditmoney">Credit Money</a></li>
+  <li><a class="active" href="http://localhost:7777/ui/transfermoney">Transfer Money</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
+<%
+}
+%>
 	<%
 		HttpSession httpSession = request.getSession();
 	%>
-	<form method="post" action="http://localhost:5556/saveTransaction">
+	<form method="post" action="http://localhost:9000/api/saveTransaction">
 		<table border="0">
 			<tr>
 				<td>From Account No</td>

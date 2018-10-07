@@ -1,30 +1,21 @@
 package olbservices.controller;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.validator.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import olbservices.FDO.CreditMoneyFDO;
 import olbservices.FDO.NewUserFDO;
 import olbservices.FDO.NewbranchFDO;
@@ -56,28 +47,31 @@ public class OLB_Controller {
 	private static final Logger LOGGER = LoggerFactory.getLogger("OLBservices");
 	private GeneralServices generalServices= new GeneralServices();
 
-	@GetMapping(value="/adduser")
+	@GetMapping(value="/ui/createuser")
 	public ModelAndView addUser()
 	{
-		return new ModelAndView("adduser");
+
+		return new ModelAndView("createUser");
 	}
 
+	@GetMapping(value="/ui/evaluate")
+	public ModelAndView evaluateUserType()
+	{
+		return new ModelAndView("evaluateUser");
+	}
 
-	@PostMapping(value="/persistuser",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	public ModelAndView newUser( NewUserFDO newUser,HttpSession session)
+	@PostMapping(value="/api/saveNewuser",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public ModelAndView newUser( NewUserFDO newUser)
 	{
 		LOGGER.debug("Creating new OLB user");
 		ModelAndView view= new ModelAndView("status");
 
 		LOGGER.info("New User entry  {}",newUser.toString());
 		LOGGER.debug("Validating User details ...  ");
-
 		boolean isNameValid=false;
 		boolean isPANvalid=false;
 		boolean isPhoneValid=false;
 		boolean isDepositValid=false;
-
-
 		UserDataValidator dataValidator= new UserDataValidator();
 
 		if (dataValidator.isNameValid(newUser.getFn()) && dataValidator.isNameValid(newUser.getLn()))
@@ -157,7 +151,6 @@ public class OLB_Controller {
 					savingsAccount.setAccountBranch(branch);
 					savingsAccount.setAccountHolder(newUser.toUser());
 					accountRepository.save(savingsAccount);
-					session.setAttribute("olbuser", newUser.getUsername());
 					view.addObject("status", "User "+newUser.getUsername()+" created with AccountNo "+savingsAccount.getSavingsAccountNumber());
 				}
 
@@ -173,18 +166,10 @@ public class OLB_Controller {
 
 		return view;
 	}
-	
-	@GetMapping(value="/home")
-	public ModelAndView redirectToHome(HttpSession session)
-	{
-	
-		String userName=session.getAttribute("olbuser").toString();
-		
-		ModelAndView model= getUserByUserId(userName,  session);
-		return model;
-	}
-	
-/*
+
+
+
+	/*
 	@RequestMapping(value="/showAllUsers", method=RequestMethod.GET)
 	public String getAllUsers(Model model)
 	{
@@ -197,31 +182,39 @@ public class OLB_Controller {
 
 
 
-	@GetMapping(value="/home/{userid}")	
+	@GetMapping(value="/ui/home/{userid}")	
 	public ModelAndView getUserByUserId(@PathVariable ("userid")String userid, HttpSession session)
 	{
-		LOGGER.info("Home page called for user {}",userid);
-		User olbUser=userRepository.findByusername(userid);
-		LOGGER.info("User {} found in records",olbUser.getUsername());
+		System.out.println("HOME --> "+userid);
+		if(userid.equalsIgnoreCase("null"))
+		{
+			return sessionTimeout();
+		}
+		else
+		{
+			session.setAttribute("olbuser", userid);
+			LOGGER.info("Home page called for user {}",userid);
+			User olbUser=userRepository.findByusername(userid);
+			LOGGER.info("User {} found in records",olbUser.getUsername());
 
-		SavingsAccount userAccount=accountRepository.findByaccountHolder(olbUser);
-		LOGGER.info("Linked Account-> {}",userAccount.getSavingsAccountNumber());
+			SavingsAccount userAccount=accountRepository.findByaccountHolder(olbUser);
+			LOGGER.info("Linked Account-> {}",userAccount.getSavingsAccountNumber());
 
-		Branch branch=userAccount.getAccountBranch();
-		LOGGER.info("Home branch-> {}",branch.toString());
+			Branch branch=userAccount.getAccountBranch();
+			LOGGER.info("Home branch-> {}",branch.toString());
 
 
-		ModelAndView model1= new ModelAndView();
-		model1.setViewName("home");
-		model1.addObject("user", olbUser);
-		model1.addObject("account", userAccount);
-		model1.addObject("branch", branch);
-		List<Transaction> userTransactions=getTransactions(userAccount.getSavingsAccountNumber()+"");
-		model1.addObject("transactions", userTransactions);
-		//session.setAttribute("transactions", userTransactions);
-		session.setAttribute("olbuser", olbUser.getUsername());
-		session.setAttribute("accountno",olbUser.getSavingsAcc().getSavingsAccountNumber());
-		return model1;
+			ModelAndView model1= new ModelAndView();
+			model1.setViewName("home");
+			model1.addObject("user", olbUser);
+			model1.addObject("account", userAccount);
+			model1.addObject("branch", branch);
+			List<Transaction> userTransactions=getTransactions(userAccount.getSavingsAccountNumber()+"");
+			model1.addObject("transactions", userTransactions);
+			//session.setAttribute("transactions", userTransactions);
+			session.setAttribute("accountno",olbUser.getSavingsAcc().getSavingsAccountNumber());
+			return model1;
+		}
 	}
 
 	public List<Transaction> getTransactions(String accountNo)
@@ -231,6 +224,7 @@ public class OLB_Controller {
 		List<Transaction> myTransactions1=transactionRepository.findAllBytoAccount(accountNo);
 		myTransactions.addAll(myTransactions1);
 		LOGGER.info("Retrieving transactions for Account {}",accountNo);
+		Collections.sort(myTransactions);
 		for (Transaction transaction:myTransactions)
 		{
 			LOGGER.info(transaction.toString());
@@ -239,13 +233,13 @@ public class OLB_Controller {
 		return myTransactions;
 	}
 
-	@GetMapping(value="/createbranch")
+	@GetMapping(value="/ui/createbranch")
 	public ModelAndView createNewUser()
 	{
 		return new ModelAndView("createBranch");
 	}
 
-	@PostMapping(value="/persistnewbranch",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PostMapping(value="/api/saveNewBranch",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView persistNewBranch(NewbranchFDO newBranchFDO)
 	{
 		ModelAndView model= new ModelAndView("status");
@@ -255,14 +249,20 @@ public class OLB_Controller {
 		return model;
 	}
 
-	@GetMapping(value="/addmoney")
+	@GetMapping(value="/ui/creditmoney")
 	public ModelAndView addMoneyView(HttpSession session)
 	{
-		ModelAndView model= new ModelAndView("addmoney");
-		return model;
+		
+		if (session.getAttribute("olbuser")==null)
+			return sessionTimeout();
+		else
+		{
+			ModelAndView model= new ModelAndView("creditMoney");
+			return model;
+		}
 	}
 
-	@PostMapping(value="/addmoneypersist",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PostMapping(value="/api/saveCreditedMoney",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView addMoney(CreditMoneyFDO moneyFDO,HttpSession session)
 	{
 		LOGGER.debug("Staring Money credit persist");
@@ -276,23 +276,26 @@ public class OLB_Controller {
 		LOGGER.info("New balance  -> "+newAmount);
 		accountRepository.save(account);
 
-		model.addObject("status", "Account "+moneyFDO.getAccountNo()+" credited with "+moneyFDO.getAmount()+" Available balance -"+account.getSavingsAvailableBalance());
-
 		String transactionID=generateTransactionID()+"";
+		model.addObject("status", "Transaction ID: "+transactionID+" Account "+moneyFDO.getAccountNo()+" credited with "+moneyFDO.getAmount()+" Available balance -"+account.getSavingsAvailableBalance());
+		LocalDateTime timeOfTransaction=LocalDateTime.now();
 
-		Transaction creditMoneyTransaction= new Transaction(transactionID, "SELF_CREDIT", moneyFDO.getAccountNo(), Integer.parseInt( moneyFDO.getAmount()));
+		Transaction creditMoneyTransaction= new Transaction(transactionID,timeOfTransaction, "CASH_DEPOSIT", moneyFDO.getAccountNo(), Integer.parseInt( moneyFDO.getAmount()));
 		transactionRepository.save(creditMoneyTransaction);
 
 		return model;
 	}
 
-	@GetMapping(value="/transfermoney")
+	@GetMapping(value="/ui/transfermoney")
 	public ModelAndView transferMoney(HttpSession session)
 	{
-		return new ModelAndView("transferMoney");
+		if (session.getAttribute("accountno")==null)
+			return sessionTimeout();
+		else
+			return new ModelAndView("transferMoney");
 	}
 
-	@PostMapping(value="/saveTransaction",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PostMapping(value="/api/saveTransaction",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView saveMoneyTransaction(TransferMoneyFDO transferFDO)
 	{
 		LOGGER.debug("Saving new transaction initiated by {}",transferFDO.getAccountNo());
@@ -342,7 +345,8 @@ public class OLB_Controller {
 		accountRepository.save(fromAcc);
 		accountRepository.save(toAcc);
 
-		Transaction transaction=new Transaction(transID+"", fromAcc.getSavingsAccountNumber()+"", toAcc.getSavingsAccountNumber()+"", amount);
+		LocalDateTime timeOfTransaction=LocalDateTime.now();
+		Transaction transaction=new Transaction(transID+"", timeOfTransaction,fromAcc.getSavingsAccountNumber()+"", toAcc.getSavingsAccountNumber()+"", amount);
 		transactionRepository.save(transaction);
 
 		return status;
@@ -351,7 +355,6 @@ public class OLB_Controller {
 	private long generateTransactionID() {
 		long LIMIT = 10000000000L;
 		long last = 0;
-		// 10 digits.
 		long id = System.currentTimeMillis() % LIMIT;
 		if ( id <= last ) {
 			id = (last + 1) % LIMIT;
@@ -359,13 +362,13 @@ public class OLB_Controller {
 		return last = id;
 	}
 
-	@GetMapping(value="/searchuser")
+	@GetMapping(value="/ui/searchuser")
 	public ModelAndView searchUserPage()
 	{
 		return new ModelAndView("searchUser");
 	}
 
-	@PostMapping(value="/searchUserfromDB",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	@PostMapping(value="/api/searchUserfromDB",consumes=MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public ModelAndView searchUser(SearchUserFDO searchUserFDO)
 	{
 		LOGGER.debug("Admin searching for user with username {} ", searchUserFDO.getUsername());
@@ -382,29 +385,28 @@ public class OLB_Controller {
 
 				SavingsAccount userAccount=accountRepository.findByaccountHolder(olbUser);
 				LOGGER.info("Linked Account-> {}",userAccount.getSavingsAccountNumber());
-
 				Branch branch=userAccount.getAccountBranch();
 				LOGGER.info("Home branch-> {}",branch.toString());
-
 				String userPAN=olbUser.getPAN();
 				String maskedPAN = userPAN.substring(0, 2) + "XXXXXX" + userPAN.substring(8);
 				olbUser.setPAN(maskedPAN);
-				
 				model.addObject("user", olbUser);
 				model.addObject("account", userAccount);
 				model.addObject("branch", branch);
 				List<Transaction> userTransactions=getTransactions(userAccount.getSavingsAccountNumber()+"");
-				model.addObject("transactions", userTransactions);
-			
+				model.addObject("transactions", userTransactions);			
 			}
 			else
 				LOGGER.error("User with username {} not found",searchUserFDO.getUsername());
 
-		
 		}
-
-
 		return model;
+	}
+
+	@GetMapping(value="/sessiontimeout")
+	public ModelAndView sessionTimeout()
+	{
+		return new ModelAndView("sessionTimeOut");
 	}
 
 }
