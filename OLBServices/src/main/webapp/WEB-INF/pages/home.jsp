@@ -18,7 +18,7 @@ if (runningENV.equalsIgnoreCase("dev"))
 {	
 %>
 <ul>
-  <li><a class="active" href="http://localhost:9000/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">Home</a></li>
+  <li><a class="active" href="http://localhost:9000/ui/home/<%out.print(request.getHeader("username")); %>">Home</a></li>
   <li><a  href="http://localhost:9000/ui/creditmoney">Credit Money</a></li>
   <li><a  href="http://localhost:9000/ui/transfermoney">Transfer Money</a></li>
   <li><a href="#about">Logout</a></li>
@@ -29,7 +29,7 @@ else if(runningENV.equalsIgnoreCase("prod"))
 {
 %>
 <ul>
-  <li><a  class="active" href="http://localhost:7777/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">Home</a></li>
+  <li><a  class="active" href="http://localhost:7777/ui/home/<%out.print(request.getHeader("username")); %>">Home</a></li>
   <li><a href="http://localhost:7777/ui/creditmoney">Credit Money</a></li>
   <li><a  href="http://localhost:7777/ui/transfermoney">Transfer Money</a></li>
   <li><a href="#about">Logout</a></li>
@@ -88,7 +88,7 @@ else if(runningENV.equalsIgnoreCase("prod"))
 				<td><c:out value="${account.savingsAccountNumber}" /></td>
 			</tr>
 			<tr>
-				<th>Balance</td>
+				<th>Balance</th>
 				<td><c:out value="${account.savingsAvailableBalance}" /></td>
 			</tr>
 		</table>

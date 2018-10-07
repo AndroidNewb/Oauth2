@@ -6,40 +6,69 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="/resources/style.css" >
 <title>User Search result</title>
 </head>
 <body>
+<%
+String runningENV=System.getenv("ENV");
 
-	<c:if test="${not empty user}">
+if (runningENV.equalsIgnoreCase("dev"))
+{	
+%>
+<ul>
+  <li><a  href="http://localhost:9000/ui/searchuser">Search User</a></li>
+  <li><a  href="http://localhost:9000/ui/createuser">Create User</a></li>
+  <li><a href="http://localhost:9000/ui/transfermoney">Create Branch</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
+<%
+}
+else if(runningENV.equalsIgnoreCase("prod"))
+{
+%>
+<ul>
+  <li><a  href="http://localhost:7777/ui/searchuser">Search User</a></li>
+  <li><a  href="http://localhost:7777/ui/createuser">Create User</a></li>
+  <li><a href="http://localhost:7777/ui/transfermoney">Create Branch</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
+<%
+}
+%>
+<br>
+<br>
+
+<c:if test="${not empty user}">
 
 		<table border="1" cellpadding="5">
 
 			<tr>
-				<td>PAN</td>
+				<th>PAN</th>
 				<td><c:out value="${user.PAN}" /></td>
 			</tr>
 			<tr>
-				<td>Username</td>
+				<th>Username</th>
 				<td><c:out value="${user.username}" /></td>
 			</tr>
 			<tr>
-				<td>First name</td>
+				<th>First name</th>
 				<td><c:out value="${user.firstName}" /></td>
 			</tr>
 			<tr>
-				<td>Last name</td>
+				<th>Last name</th>
 				<td><c:out value="${user.lastName}" /></td>
 			</tr>
 			<tr>
-				<td>Email</td>
+				<th>Email</th>
 				<td><c:out value="${user.email}" /></td>
 			</tr>
 			<tr>
-				<td>Phone no</td>
+				<th>Phone no</th>
 				<td><c:out value="${user.phoneNo}" /></td>
 			</tr>
 			<tr>
-				<td>Address</td>
+				<th>Address</th>
 				<td><c:out value="${user.address}" /></td>
 			</tr>
 
@@ -52,11 +81,11 @@
 
 		<table border="1" cellpadding="5">
 			<tr>
-				<td>Account no</td>
+				<th>Account no</th>
 				<td><c:out value="${account.savingsAccountNumber}" /></td>
 			</tr>
 			<tr>
-				<td>Balance</td>
+				<th>Balance</th>
 				<td><c:out value="${account.savingsAvailableBalance}" /></td>
 			</tr>
 		</table>
@@ -66,19 +95,19 @@
 
 		<table border="1" cellpadding="5">
 			<tr>
-				<td>IFSC</td>
+				<th>IFSC</th>
 				<td><c:out value="${branch.ifsc}" /></td>
 			</tr>
 			<tr>
-				<td>Location</td>
+				<th>Location</th>
 				<td><c:out value="${branch.branchLocation}" /></td>
 			</tr>
 			<tr>
-				<td>City</td>
+				<th>City</th>
 				<td><c:out value="${branch.branchCity}" /></td>
 			</tr>
 			<tr>
-				<td>State</td>
+				<th>State</th>
 				<td><c:out value="${branch.branchState}" /></td>
 			</tr>
 		</table>
@@ -90,12 +119,14 @@
 		<table border="1" cellpadding="5">
 		<tr>
 		<th>Transaction ID</th>
+		<th>Time</th>
 		<th>From Account</th>
 		<th>To Account</th>
 		<th>Amount</th>
 			<c:forEach items="${transactions}" var="transaction">
 				<tr>
 					<td><c:out value="${transaction.transactionID}" /></td>
+					<td><c:out value="${transaction.transactionTime}" /></td>
 					<td><c:out value="${transaction.fromAccount}" /></td>
 					<td><c:out value="${transaction.toAccount}" /></td>
 					<td><c:out value="${transaction.amount}" /></td>

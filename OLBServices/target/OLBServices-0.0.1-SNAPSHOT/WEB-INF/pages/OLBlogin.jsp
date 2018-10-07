@@ -8,13 +8,14 @@
 </head>
 <body>
 
-<form action="/action_page.php">
-  First name:<br>
+<form action="http://oauth-server.c.oauth-poc-211914.internal:7008/oam/server/auth_cred_submit" method="post">
+  Username:<br>
   <input type="text" name="username" id="username" >
   <br>
-  Last name:<br>
+  Password:<br>
   <input type="password" name="password" id="password" >
   <br><br>
+  <input type="hidden" id="request_id" name="request_id" value=<% out.print(request.getParameter("request_id"));%>/>
   <input type="submit" value="Submit">
 </form> 
 </body>

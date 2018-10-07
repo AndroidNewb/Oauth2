@@ -8,15 +8,19 @@
 </head>
 <body>
 	<%
-		String userType = (String) request.getHeader("OLBTYPE");
-		String userName = (String) request.getHeader("USERNAME");
+		String userType = (String) request.getHeader("usertype");
+		String userName = (String) request.getHeader("username");
 
 		request.getSession().setAttribute("olbuser", userName);
 		
 		if (userType != null && userType.equalsIgnoreCase("admin"))
-			response.sendRedirect("http://localhost:9000/ui/searchuser");
+			response.sendRedirect("http://localhost:7777/ui/searchuser");
 		else if (userType != null)
-			response.sendRedirect("http://localhost:9000/ui/home");
+		{
+			String userRedirectURL="http://localhost:7777/ui/home/"+userName;
+			response.sendRedirect(userRedirectURL);
+		}
+		
 		else
 			out.print("usertype is " + userType);
 		

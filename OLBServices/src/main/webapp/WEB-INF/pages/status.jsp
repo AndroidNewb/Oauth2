@@ -5,7 +5,15 @@ pageEncoding="ISO-8859-1"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<meta http-equiv="Refresh" content="5;url=http://localhost:9000/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">
+<%
+String runningENV=System.getenv("ENV");
+String port="";
+if (runningENV.equalsIgnoreCase("dev"))
+	port="9000";
+else if (runningENV.equalsIgnoreCase("prod"))
+	port="7777";
+%>
+<meta http-equiv="Refresh" content="5;url=http://localhost:<%out.print(port); %>/ui/home/<%out.print(request.getSession().getAttribute("olbuser")); %>">
 <title>Status</title>
 </head>
 <body>

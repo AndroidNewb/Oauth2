@@ -37,8 +37,13 @@ else if(runningENV.equalsIgnoreCase("prod"))
 %>
 	<%
 		HttpSession httpSession = request.getSession();
+		String port="";
+		if (runningENV.equalsIgnoreCase("dev"))
+			port="9000";
+		else if (runningENV.equalsIgnoreCase("prod"))
+			port="7777";
 	%>
-	<form method="post" action="http://localhost:9000/api/saveTransaction">
+	<form method="post" action="http://localhost:<%out.print(port); %>/api/saveTransaction">
 		<table border="0">
 			<tr>
 				<td>From Account No</td>

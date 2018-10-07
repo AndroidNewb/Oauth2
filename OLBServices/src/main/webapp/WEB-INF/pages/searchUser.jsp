@@ -8,15 +8,43 @@
 <title>Search User</title>
 </head>
 <body>
+<%
+String runningENV=System.getenv("ENV");
+if (runningENV.equalsIgnoreCase("dev"))
+{	
+%>
 <ul>
-  <li><a  class="active" href="http://localhost:9000/ui/searchuser">Search User</a></li>
+  <li><a class="active" href="http://localhost:9000/ui/searchuser">Search User</a></li>
   <li><a  href="http://localhost:9000/ui/createuser">Create User</a></li>
   <li><a href="http://localhost:9000/ui/transfermoney">Create Branch</a></li>
   <li><a href="#about">Logout</a></li>
 </ul>
-Search by username or account number 
+<%
+}
+else if(runningENV.equalsIgnoreCase("prod"))
+{
+%>
+<ul>
+  <li><a class="active" href="http://localhost:7777/ui/searchuser">Search User</a></li>
+  <li><a  href="http://localhost:7777/ui/createuser">Create User</a></li>
+  <li><a href="http://localhost:7777/ui/transfermoney">Create Branch</a></li>
+  <li><a href="#about">Logout</a></li>
+</ul>
+<%
+}
+%>
 <br>
-	<form method="post" action="http://localhost:9000/api/searchUserfromDB">
+<h3>Search by username</h3>
+<br>
+
+<%
+String port="";
+if (runningENV.equalsIgnoreCase("dev"))
+	port="9000";
+else if (runningENV.equalsIgnoreCase("prod"))
+	port="7777";
+%>
+	<form method="post" action="http://localhost:<%out.print(port); %>/api/searchUserfromDB">
 		<table border="0">
 			<tr>
 				<td>Username</td>

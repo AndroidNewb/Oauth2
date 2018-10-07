@@ -37,11 +37,16 @@ else if(runningENV.equalsIgnoreCase("prod"))
 	<h3>
 		<%
 			HttpSession httpSession = request.getSession();
-			//out.print(httpSession.getAttribute("olbuser"));
+			String port="";
+			if (runningENV.equalsIgnoreCase("dev"))
+				port="9000";
+			else if (runningENV.equalsIgnoreCase("prod"))
+				port="7777";
 		%>
+	
 	</h3>
 
-	<form method="post" action="http://localhost:9000/api/saveCreditedMoney">
+	<form method="post" action="http://localhost:<%out.print(port); %>/api/saveCreditedMoney">
 		<table border="0">
 			<tr>
 				<td>Username</td>
