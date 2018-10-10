@@ -1,0 +1,24 @@
+08-10-2018 19:16:21.492 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+08-10-2018 19:16:21.495 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+08-10-2018 19:16:36.011 [http-nio-9000-exec-1] INFO OLBservices.getUserByUserId : Home page called for user dennis
+08-10-2018 19:16:38.147 [http-nio-9000-exec-1] INFO OLBservices.getUserByUserId : User dennis found in records
+08-10-2018 19:16:38.174 [http-nio-9000-exec-1] INFO OLBservices.getUserByUserId : Linked Account-> 5000555100
+08-10-2018 19:16:38.242 [http-nio-9000-exec-1] INFO OLBservices.getUserByUserId : Home branch-> IBIN1000 | 45 downing St, Miluwakee town | Bangalore | Karnataka | 686989
+08-10-2018 19:16:38.442 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Retrieving transactions for Account 5000555100
+08-10-2018 19:16:38.444 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8827851257 | Sender SELF_CREDIT | Receiver 5000555100 | Amount 500
+08-10-2018 19:16:38.445 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8832716249 | Sender SELF_CREDIT | Receiver 5000555100 | Amount 200
+08-10-2018 19:16:38.446 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8833150068 | Sender SELF_CREDIT | Receiver 5000555100 | Amount 200
+08-10-2018 19:16:38.447 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8837092640 | Sender 5000555100 | Receiver 5000555101 | Amount 200
+08-10-2018 19:16:38.448 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8884901563 | Sender 5000555100 | Receiver 5000555101 | Amount 1000
+08-10-2018 19:16:38.449 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8887663052 | Sender 5000555100 | Receiver 5000555101 | Amount 200
+08-10-2018 19:16:38.450 [http-nio-9000-exec-1] INFO OLBservices.getTransactions : Transaction ID: 8888720286 | Sender CASH_DEPOSIT | Receiver 5000555100 | Amount 300
+08-10-2018 20:01:48.286 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+08-10-2018 20:01:48.289 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+08-10-2018 22:14:23.072 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+08-10-2018 22:14:23.072 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+09-10-2018 09:40:48.638 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+09-10-2018 09:40:48.653 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+09-10-2018 14:28:24.582 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+09-10-2018 14:28:24.589 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+09-10-2018 21:43:25.741 [main] WARN OLBservices.run : ----------------------------------------------------------------------------
+09-10-2018 21:43:25.797 [main] WARN OLBservices.run : ----------------------------------------------------------------------------

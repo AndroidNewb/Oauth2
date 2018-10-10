@@ -22,6 +22,7 @@ import olbservices.FDO.NewbranchFDO;
 import olbservices.FDO.SearchUserFDO;
 import olbservices.FDO.TransferMoneyFDO;
 import olbservices.model.Branch;
+import olbservices.model.OLBUserInfo;
 import olbservices.model.SavingsAccount;
 import olbservices.model.Transaction;
 import olbservices.model.User;
@@ -252,7 +253,7 @@ public class OLB_Controller {
 	@GetMapping(value="/ui/creditmoney")
 	public ModelAndView addMoneyView(HttpSession session)
 	{
-		
+
 		if (session.getAttribute("olbuser")==null)
 			return sessionTimeout();
 		else
@@ -409,4 +410,21 @@ public class OLB_Controller {
 		return new ModelAndView("sessionTimeOut");
 	}
 
+	@GetMapping(value="/oauth/getuserinfo/{username}")
+	public OLBUserInfo getUserInfo(@PathVariable ("username")String userid)
+	{
+		if(userid!=null && userid!="")
+		{
+			OLBUserInfo olbuserinfo= new OLBUserInfo();
+			User user=userRepository.findByusername(userid);
+			SavingsAccount account=accountRepository.findByaccountHolder(user);
+
+			olbuserinfo.setAccountNo(account.getSavingsAccountNumber()+"");
+			olbuserinfo.setBalance(account.getSavingsAvailableBalance()+"");
+
+			return olbuserinfo;
+		}
+		else
+			return null;
+	}
 }

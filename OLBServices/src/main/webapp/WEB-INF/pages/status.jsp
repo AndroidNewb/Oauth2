@@ -19,7 +19,7 @@ else if (runningENV.equalsIgnoreCase("prod"))
 <body>
 
 <h3>You will automatically be redirected, do not refresh</h3>
-<img src="/resources/loading.gif" bor>
+<img src="/resources/loading.gif" >
 	<c:if test="${not empty userErrorStatus}">
 		<h2>
 			<c:out value="${userErrorStatus}" />
