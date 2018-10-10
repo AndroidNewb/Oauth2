@@ -7,6 +7,7 @@
 <title>Evaluate User</title>
 </head>
 <body>
+
 	<%
 		String userType = (String) request.getHeader("usertype");
 		String userName = (String) request.getHeader("username");

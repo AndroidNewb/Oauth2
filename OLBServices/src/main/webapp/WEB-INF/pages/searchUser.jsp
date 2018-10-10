@@ -5,9 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="/resources/style.css" >
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css" >
 <title>Search User</title>
 </head>
 <body>
+<div name="logo" id="name" style="background-color:#333; padding-top:5px;">
+<img src="/resources/logo-bar.png" width=70% height=40% > 
+</div>
 <%
 String runningENV=System.getenv("ENV");
 if (runningENV.equalsIgnoreCase("dev"))

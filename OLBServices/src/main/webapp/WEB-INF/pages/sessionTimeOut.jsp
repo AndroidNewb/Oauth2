@@ -7,6 +7,9 @@
 <title>Session timeout</title>
 </head>
 <body>
+<div name="logo" id="name" style="background-color:#333; padding-top:5px;">
+<img src="logo-bar.png" width=70% height=40% > 
+</div>
 <h2>Your session has timed out, kindly login again</h2>
 <br>
 <a href="">Login to OLB</a>

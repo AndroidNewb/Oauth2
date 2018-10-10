@@ -7,40 +7,55 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Home</title>
-<link rel="stylesheet" href="/resources/style.css" >
+<link rel="stylesheet" href="/resources/style.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 </head>
 <body>
+	<div name="logo" id="name"
+		style="background-color: #333; padding-top: 5px;">
+		<img src="/resources/logo-bar.png" width=70% height=40%>
+	</div>
 
-<%
-String runningENV=System.getenv("ENV");
+	<%
+		String runningENV = System.getenv("ENV");
 
-if (runningENV.equalsIgnoreCase("dev"))
-{	
-%>
-<ul>
-  <li><a class="active" href="http://localhost:9000/ui/home/<%out.print(request.getHeader("username")); %>">Home</a></li>
-  <li><a  href="http://localhost:9000/ui/creditmoney">Credit Money</a></li>
-  <li><a  href="http://localhost:9000/ui/transfermoney">Transfer Money</a></li>
-  <li><a href="#about">Logout</a></li>
-</ul>
-<%
-}
-else if(runningENV.equalsIgnoreCase("prod"))
-{
-%>
-<ul>
-  <li><a  class="active" href="http://localhost:7777/ui/home/<%out.print(request.getHeader("username")); %>">Home</a></li>
-  <li><a href="http://localhost:7777/ui/creditmoney">Credit Money</a></li>
-  <li><a  href="http://localhost:7777/ui/transfermoney">Transfer Money</a></li>
-  <li><a href="#about">Logout</a></li>
-</ul>
-<%
-}
-%>
-<br>
-<br>
-<h3>Hi <%out.print(request.getSession().getAttribute("olbuser"));%>, welcome home</h3>
-<br>
+		if (runningENV.equalsIgnoreCase("dev")) {
+	%>
+	<ul>
+		<li><a class="active"
+			href="http://localhost:9000/ui/home/<%out.print(request.getHeader("username"));%>">Home</a></li>
+		<li><a href="http://localhost:9000/ui/creditmoney">Credit
+				Money</a></li>
+		<li><a href="http://localhost:9000/ui/transfermoney">Transfer
+				Money</a></li>
+		<li><a href="#about">Logout</a></li>
+	</ul>
+	<%
+		} else if (runningENV.equalsIgnoreCase("prod")) {
+	%>
+	<ul>
+		<li><a class="active"
+			href="http://localhost:7777/ui/home/<%out.print(request.getHeader("username"));%>">Home</a></li>
+		<li><a href="http://localhost:7777/ui/creditmoney">Credit
+				Money</a></li>
+		<li><a href="http://localhost:7777/ui/transfermoney">Transfer
+				Money</a></li>
+		<li><a href="#about">Logout</a></li>
+	</ul>
+	<%
+		}
+	%>
+	<br>
+	<br>
+	<h3>
+		Hi
+		<%
+		out.print(request.getSession().getAttribute("olbuser"));
+	%>, welcome
+		home
+	</h3>
+	<br>
+
 
 	<c:if test="${not empty user}">
 
@@ -120,12 +135,13 @@ else if(runningENV.equalsIgnoreCase("prod"))
 
 
 		<table border="1" cellpadding="5">
-		<tr>
-		<th>Transaction ID</th>
-		<th>Time</th>
-		<th>From Account</th>
-		<th>To Account</th>
-		<th>Amount</th>
+			<tr>
+				<th>Transaction ID</th>
+				<th>Time</th>
+				<th>From Account</th>
+				<th>To Account</th>
+				<th>Amount</th>
+			</tr>
 			<c:forEach items="${transactions}" var="transaction">
 				<tr>
 					<td><c:out value="${transaction.transactionID}" /></td>
@@ -137,5 +153,7 @@ else if(runningENV.equalsIgnoreCase("prod"))
 			</c:forEach>
 		</table>
 	</c:if>
+	
+
 </body>
 </html>

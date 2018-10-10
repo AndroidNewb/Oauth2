@@ -54,6 +54,13 @@ public class OLB_Controller {
 
 		return new ModelAndView("createUser");
 	}
+	
+	@GetMapping(value="/ui/login")
+	public ModelAndView login()
+	{
+
+		return new ModelAndView("OLBlogin");
+	}
 
 	@GetMapping(value="/ui/evaluate")
 	public ModelAndView evaluateUserType()
