@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="css/bootstrap.min.css" rel="stylesheet">
+
+
+<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
+</style>
+</head>
+<body>
+<div name="logo" id="name" style="background-color:#333; padding-top:5px;">
+<img src="logo-horz.png" width=70% height=40% > 
+</div>
+
+<ul>
+
+  <li><a class="active" href="#home">Home</a></li>
+  <li><a href="#news">News</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="#about">About</a></li>
+</ul>
+
+<table>
+<tr>
+<td style="width:40%; height:100% ">
+<img src="image.png"style="margin-top:70px;margin-left:50px;" >
+</td>
+<td style="width:50%;">
+
+<form class="form-signin" style="padding:60px;" action="https://google.com" >
+      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+      <div class="mb-3">
+<input type="text" class="form-control" id="firstName" placeholder="Username" value="" required>
+                <div class="invalid-feedback">
+                  Valid first name is required.
+                </div>
+</div>
+<div class="mb-3">
+      
+	<label for="inputPassword" class="sr-only">Password</label>
+      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+     </div>
+<div class="mb-3"> 
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</div>
+    </form>
+</td>
+</tr>
+
+
+</body>
+</html>
