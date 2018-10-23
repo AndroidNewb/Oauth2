@@ -22,3 +22,89 @@ INSERT INTO oauth_schema.user_roles (username, role) VALUES ('jack', 'ROLE_USER'
 INSERT INTO oauth_schema.user_roles (username, role) VALUES ('jack', 'ROLE_ADMIN');
 INSERT INTO oauth_schema.user_roles (username, role) VALUES ('dennis', 'ROLE_ADMIN');
 INSERT INTO oauth_schema.user_roles (username, role) VALUES ('peter', 'ROLE_USER');
+----------------------------------------------------------------------------------------------
+
+
+	@GetMapping(value="/ui/home/{userid}")	
+	public ModelAndView getUserByUserId(@PathVariable ("userid")String userid, HttpSession session)
+	{
+		System.out.println("HOME --> "+userid);
+		if(userid.equalsIgnoreCase("null"))
+		{
+			return sessionTimeout();
+		}
+		else
+		{
+			session.setAttribute("olbuser", userid);
+			LOGGER.info("Home page called for user {}",userid);
+			User olbUser=userRepository.findByusername(userid);
+			LOGGER.info("User {} found in records",olbUser.getUsername());
+
+			SavingsAccount userAccount=accountRepository.findByaccountHolder(olbUser);
+			LOGGER.info("Linked Account-> {}",userAccount.getSavingsAccountNumber());
+
+			Branch branch=userAccount.getAccountBranch();
+			LOGGER.info("Home branch-> {}",branch.toString());
+
+
+			ModelAndView model1= new ModelAndView();
+			model1.setViewName("home");
+			model1.addObject("user", olbUser);
+			model1.addObject("account", userAccount);
+			model1.addObject("branch", branch);
+			
+			try {
+				
+				
+				List<Transaction> userTransactions=getTransactions(userAccount.getSavingsAccountNumber()+"");
+				if(userTransactions!=null && userTransactions.size()>0)
+					model1.addObject("transactions", userTransactions);
+				else if (userTransactions==null)
+				{
+					System.out.println("NO USER TRANSACTIONS -> NULL");
+				}
+				else if (!(userTransactions.size()>0))
+				{
+					System.out.println("NO USER TRANSACTIONS -> SIZE "+userTransactions.size());
+				}
+				//session.setAttribute("transactions", userTransactions);
+				session.setAttribute("accountno",olbUser.getSavingsAcc().getSavingsAccountNumber());
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println("AT END -------");
+			return model1;
+		}
+	}
+
+	public List<Transaction> getTransactions(String accountNo)
+	{
+		List<Transaction> myTransactions=new ArrayList<Transaction>();
+		LOGGER.info("Retrieving transactions for Account {}",accountNo);
+		myTransactions=transactionRepository.findAllByfromAccount(accountNo);
+		List<Transaction> myTransactions1=transactionRepository.findAllBytoAccount(accountNo);
+
+		if (myTransactions!=null && myTransactions.size()>0)
+		{
+			if (myTransactions1!=null)
+				myTransactions.addAll(myTransactions1);
+			
+			Collections.sort(myTransactions);
+			for (Transaction transaction:myTransactions)
+			{
+				LOGGER.info(transaction.toString());
+			}
+		}
+		else
+		{
+			LOGGER.warn("NO transactions found for account {}",accountNo);
+		}
+
+
+
+		return myTransactions;
+	}
+  ------------------------------
+  
