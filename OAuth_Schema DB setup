@@ -1,0 +1,24 @@
+CREATE  TABLE oauth_schema.users (
+  username VARCHAR(20) NOT NULL ,
+  password VARCHAR(20) NOT NULL ,
+  enabled TINYINT NOT NULL DEFAULT 1 ,
+  PRIMARY KEY (username));
+
+  CREATE TABLE oauth_schema.user_roles (
+  user_role_id int(11) NOT NULL AUTO_INCREMENT,
+  username varchar(20) NOT NULL,
+  role varchar(20) NOT NULL,
+  PRIMARY KEY (user_role_id),
+  UNIQUE KEY uni_username_role (role,username),
+  KEY fk_username_idx (username),
+  CONSTRAINT fk_username FOREIGN KEY (username) REFERENCES oauth_schema.users (username));
+  
+  
+  INSERT INTO oauth_schema.users(username,password,enabled) VALUES ('jack','jack', true);
+INSERT INTO oauth_schema.users(username,password,enabled) VALUES ('peter','peter', true);
+INSERT INTO oauth_schema.users(username,password,enabled) VALUES ('dennis','abcd1234', true);
+ 
+INSERT INTO oauth_schema.user_roles (username, role) VALUES ('jack', 'ROLE_USER');
+INSERT INTO oauth_schema.user_roles (username, role) VALUES ('jack', 'ROLE_ADMIN');
+INSERT INTO oauth_schema.user_roles (username, role) VALUES ('dennis', 'ROLE_ADMIN');
+INSERT INTO oauth_schema.user_roles (username, role) VALUES ('peter', 'ROLE_USER');
