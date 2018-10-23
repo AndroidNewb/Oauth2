@@ -1,1 +1,4 @@
 Spring Oauth2 implementation (original) OLB app and OAuth 2 impl in Spring
+
+
+https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
